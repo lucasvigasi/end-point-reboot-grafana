@@ -105,9 +105,9 @@ app = Flask(__name__)
 CORS(app)
 
 # Configurações de Segurança
-AUTHORIZED_USERNAME = "next_console_1"
-AUTHORIZED_PASSWORD = "yas789fu90123o"
-AUTHORIZED_TOKEN = "tokennext"
+AUTHORIZED_USERNAME = os.environ.get("REBOOT_API_USER")
+AUTHORIZED_PASSWORD = os.environ.get("REBOOT_API_PASS")
+AUTHORIZED_TOKEN = "os.environ.get("REBOOT_API_TOKEN")"
 
 # Diretório de logs
 LOG_DIR = '/opt/reboot_service'
@@ -275,20 +275,20 @@ ExecStart=/usr/bin/python3 ${PYTHON_SCRIPT_PATH}
 Restart=on-failure
 RestartSec=5s
 
-# Para logging, você pode redirecionar a saída padrão e de erro para arquivos ou usar journald
-# StandardOutput=append:/var/log/${SERVICE_NAME}.log
-# StandardError=append:/var/log/${SERVICE_NAME}.err.log
-# Ou, se preferir usar o journal do systemd (recomendado):
 StandardOutput=journal
 StandardError=journal
 
-# Fortalecimento de segurança (opcional, mas recomendado para serviços de produção)
-# PrivateTmp=true
-# ProtectSystem=full
-# NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+NoNewPrivileges=true
 # PrivateDevices=true
-# ProtectHome=true # Se o usuário não precisar de acesso à home
-# ReadWritePaths=${FULL_SERVICE_DIR} # Permite escrita apenas no diretório de trabalho (e logs se configurado)
+ProtectHome=true
+# ReadWritePaths=${FULL_SERVICE_DIR}
+
+Environment="REBOOT_API_USER=usuario_reboot"
+Environment="REBOOT_API_PASS=gereumasenhaplease"
+Environment="REBOOT_API_TOKEN=gereumtokenplease"
+ProtectEnvironment=true
 
 [Install]
 WantedBy=multi-user.target
